@@ -41,7 +41,7 @@ class Nav extends Component{
     }
 }
 }
-function mapStateToProps(state, {params}){
+function mapStateToProps(state){
     const {username,profilePicture} = state
     return {username,profilePicture}
 }

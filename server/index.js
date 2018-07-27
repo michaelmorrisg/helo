@@ -33,6 +33,7 @@ app.post('/api/auth/logout', (req,res)=>{
     console.log(req.session)
 })
 app.get('/api/auth/me', controller.sessionUser)
+app.get('/api/postsfirst', controller.getPostsFirst)
 
 
 

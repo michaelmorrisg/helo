@@ -31,7 +31,16 @@ module.exports = {
     },
     getPosts: (req,res)=>{
         const db = req.app.get('db')
+        if(req.query.myposts){
 
+            db.get_filtered_posts({id:req.session.userid})
+            .then(response=>res.status(200).send(response))
+        } else
+        db.get_posts()
+            .then(response=>res.status(200).send(response))
+    },
+    getPostsFirst: (req,res)=>{
+        const db = req.app.get('db')
         db.get_posts()
         .then(response=>res.status(200).send(response))
     },

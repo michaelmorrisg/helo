@@ -7,17 +7,36 @@ class Dashboard extends Component{
         this.state = {
             search: '',
             allPosts: [],
-            userposts: true
+            includeUserposts: false
         }
     }
     componentDidMount(){
-        axios.get(`/api/posts?myposts=${this.state.userposts}&filter=${this.state.search}`).then(response=>{
+        axios.get(`/api/postsfirst`).then(response=>{
             this.setState({
                 allPosts: response.data
             })
             console.log(response)
         })
     }
+    refreshSearch(){
+        if(this.state.includeUserposts === true){
+        console.log(this.state.userposts)
+        axios.get(`/api/posts?myposts=${this.state.userposts}`)
+        .then(response=>{
+            this.setState({
+                allPosts: response.data
+            })
+            console.log(this.state.allPosts)
+        })
+    } else{
+        axios.get(`/api/posts`)
+        .then(response=>{
+            this.setState({
+                allPosts: response.data
+            })
+        })
+    }
+}
     handleSearch(input){
         this.setState({
             search: input
@@ -25,7 +44,7 @@ class Dashboard extends Component{
     }
     handleClicky(){
         this.setState({
-            userposts: !this.state.userposts
+            includeUserposts: !this.state.includeUserposts
         })
     }
 
@@ -33,12 +52,12 @@ class Dashboard extends Component{
         return (
             <div>
                 <input onChange={(e)=>this.handleSearch(e.target.value)}placeholder="search stuff"/>
-                <button>Search</button>
+                <button onClick={()=>this.refreshSearch()}>Search</button>
                 <button>Reset</button>
-                <input onClick={()=>{this.handleClicky()}} type="checkbox" name="Include My Posts" />Include my posts
+                <input onClick={()=>{this.handleClicky()}} type="checkbox" name="Include My Posts" />Don't Include my posts
                 {this.state.allPosts.map((element)=>{
                     return (
-                        <div>{element.title}{element.content}{element.name}</div>
+                        <div><h2>{element.title}</h2>{element.content}<br/>-{element.name}</div>
                     )
                 })}
             </div>
