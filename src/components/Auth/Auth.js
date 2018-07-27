@@ -41,7 +41,7 @@ class Auth extends Component{
         .then(res=>{
             if(res.data[0]){
                 console.log(res.data)
-                // this.props.updateUserInfo(res.data[0].id,this.state.userName,this.state.photo);
+                this.props.updateUserInfo(res.data[0].id,this.state.userName,this.state.photo);
                 this.setState({
                     toDashboard: true
                 })
